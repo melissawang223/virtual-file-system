@@ -1,16 +1,21 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"log"
 	"os"
-	vfs "virtualFileSystem/cmd"
+	"os/signal"
+	"strings"
+	"syscall"
+	"virtualFileSystem/cmd"
 	"virtualFileSystem/user"
 )
 
 func readToMemory() {
-	user.Users = make([]user.User, 0)
+	user.Users = make([]*user.User, 0)
+	user.UsersMap = map[string]*user.User{}
 
 	//User
 	byt, err := os.ReadFile("localUser.txt")
@@ -24,6 +29,10 @@ func readToMemory() {
 
 	fmt.Println(user.Users)
 
+	for _, val := range user.Users {
+		user.UsersMap[val.Name] = val
+	}
+
 	// Folder
 
 	// File
@@ -31,37 +40,52 @@ func readToMemory() {
 }
 
 func main() {
-
 	defer func() {
+		fmt.Println("In Defer")
 		saveMemory()
 	}()
+
 	readToMemory()
-	/*read, err := os.ReadFile("localUser.txt")
-	if err != nil {
-		fmt.Println("No local storage")
+
+	c := make(chan os.Signal)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+	go func() {
+		<-c
+		saveMemory()
+		os.Exit(1)
+	}()
+
+	for {
+		buf := bufio.NewReader(os.Stdin)
+		fmt.Print("> ")
+		sentence, err := buf.ReadString('\n')
+		if err != nil {
+			fmt.Println(err)
+		} else {
+
+			//vfs.Execute()
+			args := strings.Fields(sentence)
+			if len(args) >= 1 && args[0] != "" {
+				switch args[0] {
+				case "register":
+					cmd.CreateUser(args[1:])
+				case "create-folder":
+					cmd.CreateFolder(args[1:])
+				case "delete-folder":
+					cmd.DeleteFolder(args[1:])
+				case "list-folder":
+					cmd.ListFolder(args[1:])
+				}
+			}
+
+		}
+
 	}
-
-	_, err = os.Stdout.Write(read)
-	if err != nil {
-		return
-	}
-
-	// `b` contains everything your file has.
-	// This writes it to the Standard Out.
-	temp := []byte("Here is a string3....")
-	_, err = os.Stdout.Write(temp)
-	if err != nil {
-		return
-	}
-	*/
-
-	vfs.Execute()
-
 }
 
 func saveMemory() {
-	// You can also write it to a file as a whole.
 
+	// user
 	file, _ := json.MarshalIndent(user.Users, "", " ")
 
 	err := os.WriteFile("localUser.txt", file, 0644)

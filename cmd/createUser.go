@@ -2,33 +2,40 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
+	"regexp"
+	"virtualFileSystem/folder"
 	"virtualFileSystem/user"
 )
 
-// createUserCmd represents the createUserCmd command
-var createUserCmd = &cobra.Command{
-	Use:   "register",
-	Short: "This command will create a new user",
-	Long:  "This command will create a new user",
-	Run: func(cmd *cobra.Command, args []string) {
-		var userName = "melissa"
+func CreateUser(args []string) {
+	var userName = "melissa"
 
-		if len(args) >= 1 && args[0] != "" {
-			userName = args[0]
-		}
+	if len(args) >= 1 && args[0] != "" {
+		userName = args[0]
+	} else {
+		return
+	}
 
-		// create user
+	// create user
 
-		user.Users = append(user.Users, user.User{
-			Name:    userName,
-			Folders: map[string]string{},
-		})
+	// check invalid char
+	usernameConvention := "^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$"
+	re, _ := regexp.Compile(usernameConvention)
+	if len(userName) > 40 || len(userName) <= 0 || !re.MatchString(userName) {
+		fmt.Printf("Error: The %s contain invalid chars.\n", userName)
+		return
+	}
 
-		fmt.Println("Success create user:", userName)
-	},
-}
+	// check exist
+	if _, ok := user.UsersMap[userName]; ok {
+		fmt.Printf("Error: The %s has already existed.\n", userName)
+		return
+	}
 
-func init() {
-	rootCmd.AddCommand(createUserCmd)
+	user.Users = append(user.Users, &user.User{
+		Name:    userName,
+		Folders: map[string]*folder.Folder{},
+	})
+
+	fmt.Printf("Add %s successfully.\n", userName)
 }

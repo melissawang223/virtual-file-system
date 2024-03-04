@@ -1,22 +1,27 @@
 [
  {
-  "Name": "someID1",
+  "Name": "anderson3",
   "Folders": {
-   "str1Key": "str1Value"
+   "folder1": {
+    "Name": "folder1",
+    "Description": "haha",
+    "CreatedAt": 1709540100,
+    "File": {}
+   },
+   "folder2": {
+    "Name": "folder2",
+    "Description": "haha",
+    "CreatedAt": 1709541959,
+    "File": {}
+   }
   }
  },
  {
-  "Name": "someID2",
-  "Folders": {
-   "str1Key": "str2Value"
-  }
- },
- {
-  "Name": "anderson1",
+  "Name": "and3",
   "Folders": {}
  },
  {
-  "Name": "anderson2",
+  "Name": "anderson4",
   "Folders": {}
  }
 ]

@@ -1,8 +1,11 @@
 package user
 
-var Users []User
+import "virtualFileSystem/folder"
+
+var Users []*User
+var UsersMap map[string]*User
 
 type User struct {
 	Name    string
-	Folders map[string]string
+	Folders map[string]*folder.Folder
 }

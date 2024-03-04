@@ -1,10 +1,12 @@
 package folder
 
+import "virtualFileSystem/file"
+
 type Folder struct {
 	Name        string
 	Description string
-	CreatedAt   int
-	File        map[string]File
+	CreatedAt   int64
+	File        map[string]*file.File
 }
 
 /*

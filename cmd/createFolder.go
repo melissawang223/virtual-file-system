@@ -2,26 +2,53 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
+	"regexp"
+	"time"
+	"virtualFileSystem/file"
+	"virtualFileSystem/folder"
+	"virtualFileSystem/user"
 )
 
-// createFolderCmd represents the createFolderCmd command
-var createFolderCmd = &cobra.Command{
-	Use:   "create-folder",
-	Short: "This command will create a new folder",
-	Long:  "This command will create a new folder",
-	Run: func(cmd *cobra.Command, args []string) {
-		var userName = "melissa_folder"
+// create-folder [username] [foldername] [description]
 
-		if len(args) >= 1 && args[0] != "" {
-			userName = args[0]
+func CreateFolder(args []string) {
+	userName := "melissa"
+	folderName := "melissa_folder"
+	description := "melissa_folder_description"
+
+	if len(args) >= 2 && args[0] != "" && args[1] != "" {
+		userName = args[0]
+		folderName = args[1]
+		if len(args) >= 3 && args[0] != "" {
+			description = args[2]
 		}
+	} else {
+		return
+	}
 
-		// create user
-		fmt.Println("Success create folder:", userName)
-	},
-}
+	// check user exist
 
-func init() {
-	rootCmd.AddCommand(createFolderCmd)
+	if _, ok := user.UsersMap[userName]; !ok {
+		fmt.Printf("Error: The %s doesn't exist.\n", userName)
+		return
+	}
+
+	// check invalid char
+	usernameConvention := "^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$"
+	re, _ := regexp.Compile(usernameConvention)
+	if len(folderName) > 40 || len(folderName) <= 0 || !re.MatchString(folderName) {
+		fmt.Printf("Error: The %s contain invalid chars.", folderName)
+		return
+	}
+
+	//create folder
+	currentUser := user.UsersMap[userName]
+	currentUser.Folders[folderName] = &folder.Folder{
+		Name:        folderName,
+		Description: description,
+		CreatedAt:   time.Now().Unix(),
+		File:        map[string]*file.File{},
+	}
+
+	fmt.Printf("Create %s successfully.\n", folderName)
 }
