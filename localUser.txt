@@ -1,0 +1,22 @@
+[
+ {
+  "Name": "someID1",
+  "Folders": {
+   "str1Key": "str1Value"
+  }
+ },
+ {
+  "Name": "someID2",
+  "Folders": {
+   "str1Key": "str2Value"
+  }
+ },
+ {
+  "Name": "anderson1",
+  "Folders": {}
+ },
+ {
+  "Name": "anderson2",
+  "Folders": {}
+ }
+]
