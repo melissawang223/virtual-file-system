@@ -32,10 +32,13 @@ func CreateUser(args []string) {
 		return
 	}
 
-	user.Users = append(user.Users, &user.User{
+	newUser := &user.User{
 		Name:    userName,
 		Folders: map[string]*folder.Folder{},
-	})
+	}
+	user.Users = append(user.Users, newUser)
+
+	user.UsersMap[userName] = newUser
 
 	fmt.Printf("Add %s successfully.\n", userName)
 }

@@ -3,31 +3,26 @@ package cmd
 import (
 	"fmt"
 	"regexp"
-	"time"
-	"virtualFileSystem/file"
 	"virtualFileSystem/folder"
 	"virtualFileSystem/user"
 )
 
-// create-folder [username] [foldername] [description]
+// rename-folder [username] [foldername] [new-folder-name]
 
-func CreateFolder(args []string) {
+func RenameFolder(args []string) {
 	userName := "melissa"
 	folderName := "melissa_folder"
-	description := "melissa_folder_description"
+	newfolderName := "melissa_folder_description"
 
-	if len(args) >= 2 && args[0] != "" && args[1] != "" {
+	if len(args) >= 3 && args[0] != "" && args[1] != "" && args[0] != "" {
 		userName = args[0]
 		folderName = args[1]
-		if len(args) >= 3 && args[2] != "" {
-			description = args[2]
-		}
+		newfolderName = args[2]
 	} else {
 		return
 	}
 
 	// check user exist
-
 	if _, ok := user.UsersMap[userName]; !ok {
 		fmt.Printf("Error: The %s doesn't exist.\n", userName)
 		return
@@ -41,14 +36,18 @@ func CreateFolder(args []string) {
 		return
 	}
 
-	//create folder
+	//rename folder
 	currentUser := user.UsersMap[userName]
-	currentUser.Folders[folderName] = &folder.Folder{
-		Name:        folderName,
-		Description: description,
-		CreatedAt:   time.Now().Unix(),
-		File:        map[string]*file.File{},
+	oldFolder := currentUser.Folders[folderName]
+	newFolder := &folder.Folder{
+		Name:        newfolderName,
+		Description: oldFolder.Description,
+		CreatedAt:   oldFolder.CreatedAt,
+		File:        oldFolder.File,
 	}
+	currentUser.Folders[newfolderName] = newFolder
 
-	fmt.Printf("Create %s successfully.\n", folderName)
+	delete(currentUser.Folders, folderName)
+
+	fmt.Printf("Rename %s to %s successfully.\n", folderName, newFolder)
 }

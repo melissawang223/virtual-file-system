@@ -2,9 +2,9 @@ package file
 
 // [filename] [description] [created at] [foldername] [username]
 type File struct {
-	FileName    string
+	Name        string
 	Description string
-	CreatedAt   int
+	CreatedAt   int64
 
 	FolderName string
 	UserName   string
