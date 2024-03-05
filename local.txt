@@ -1,0 +1,27 @@
+[
+ {
+  "Name": "m1",
+  "Folders": {
+   "f1": {
+    "Name": "f1",
+    "Description": "",
+    "CreatedAt": 1709620396,
+    "File": {
+     "fe1": {
+      "Name": "fe1",
+      "Description": "",
+      "CreatedAt": 1709623293,
+      "FolderName": "f1",
+      "UserName": "m1"
+     }
+    }
+   },
+   "f2": {
+    "Name": "f2",
+    "Description": "",
+    "CreatedAt": 1709621466,
+    "File": {}
+   }
+  }
+ }
+]
