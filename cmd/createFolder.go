@@ -2,19 +2,17 @@ package cmd
 
 import (
 	"fmt"
-	"regexp"
 	"time"
-	"virtualFileSystem/file"
-	"virtualFileSystem/folder"
-	"virtualFileSystem/user"
+	"virtualFileSystem/helper"
+	"virtualFileSystem/model"
 )
 
 // create-folder [username] [foldername] [description]
 
 func CreateFolder(args []string) {
-	userName := "melissa"
-	folderName := "melissa_folder"
-	description := "melissa_folder_description"
+	userName := ""
+	folderName := ""
+	description := ""
 
 	if len(args) >= 2 && args[0] != "" && args[1] != "" {
 		userName = args[0]
@@ -26,29 +24,38 @@ func CreateFolder(args []string) {
 		return
 	}
 
-	// check user exist
-
-	if _, ok := user.UsersMap[userName]; !ok {
-		fmt.Printf("Error: The %s doesn't exist.\n", userName)
+	// check userName is valid or not
+	if err := helper.CheckUser(userName); err != nil {
 		return
 	}
 
-	// check invalid char
-	usernameConvention := "^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$"
-	re, _ := regexp.Compile(usernameConvention)
-	if len(folderName) > 40 || len(folderName) <= 0 || !re.MatchString(folderName) {
-		fmt.Printf("Error: The %s contain invalid chars.", folderName)
+	// check if this user exist
+	if !model.UserExist(userName) {
+		return
+	}
+
+	// check folderName is valid or not
+	if err := helper.CheckFolder(folderName); err != nil {
+		return
+	}
+
+	// check if this user's folder exist
+	if !model.FolderExist(userName, folderName) {
+		return
+	}
+
+	// check folder description is valid or not
+	if err := helper.CheckFileDescription(description); err != nil {
 		return
 	}
 
 	//create folder
-	currentUser := user.UsersMap[userName]
-	currentUser.Folders[folderName] = &folder.Folder{
+	model.CreateFolder(userName, folderName, &model.Folder{
 		Name:        folderName,
 		Description: description,
 		CreatedAt:   time.Now().Unix(),
-		File:        map[string]*file.File{},
-	}
+		File:        map[string]*model.File{},
+	})
 
 	fmt.Printf("Create %s successfully.\n", folderName)
 }

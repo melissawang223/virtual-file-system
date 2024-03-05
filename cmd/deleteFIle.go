@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"virtualFileSystem/user"
+	"virtualFileSystem/model"
 )
 
 // delete-folder [username] [foldername]
@@ -19,20 +19,17 @@ func DeleteFile(args []string) {
 	}
 
 	// check user exist
-	if _, ok := user.UsersMap[userName]; !ok {
+	if _, ok := model.UsersMap[userName]; !ok {
 		fmt.Printf("Error: The %s doesn't exist.\n", userName)
 		return
 	}
 
-	// check folder exist
-	currentUser := user.UsersMap[userName]
-	if _, ok := currentUser.Folders[folderName]; !ok {
-		fmt.Printf("Error: The %s doesn't exist.\n", folderName)
+	// check if this user's folder exist
+	if !model.FolderExist(userName, folderName) {
 		return
 	}
 
-	//delete folder
-	delete(currentUser.Folders, folderName)
+	model.DeleteFile(userName, folderName, folderName)
 
 	fmt.Printf("Delete %s successfully.\n", folderName)
 }

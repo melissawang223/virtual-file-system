@@ -10,7 +10,7 @@ import (
 	"strings"
 	"syscall"
 	"virtualFileSystem/cmd"
-	"virtualFileSystem/user"
+	"virtualFileSystem/model"
 )
 
 var storage = "local.txt"
@@ -54,11 +54,11 @@ out:
 					cmd.ListFolder(args[1:])
 
 				case "create-file":
-					cmd.CreateFolder(args[1:])
+					cmd.CreateFile(args[1:])
 				case "delete-file":
-					cmd.DeleteFolder(args[1:])
+					cmd.DeleteFile(args[1:])
 				case "list-files":
-					cmd.ListFolder(args[1:])
+					cmd.ListFile(args[1:])
 
 				case "help":
 					printHelp()
@@ -77,29 +77,30 @@ out:
 }
 
 func readToMemory() {
-	user.Users = make([]*user.User, 0)
-	user.UsersMap = map[string]*user.User{}
+	model.Users = make([]*model.User, 0)
+	model.UsersMap = map[string]*model.User{}
+	model.FolderMap = map[[2]string]*model.Folder{}
 
 	byt, err := os.ReadFile(storage)
 	if err != nil {
 		fmt.Println("No local user storage")
 	}
 
-	if err := json.Unmarshal(byt, &user.Users); err != nil {
+	if err := json.Unmarshal(byt, &model.Users); err != nil {
 		panic(err)
 	}
 
-	fmt.Println(user.Users)
+	fmt.Println(model.Users)
 
-	for _, val := range user.Users {
-		user.UsersMap[val.Name] = val
+	for _, val := range model.Users {
+		model.UsersMap[val.Name] = val
 	}
 
 }
 
 func saveMemory() {
 
-	file, _ := json.MarshalIndent(user.Users, "", " ")
+	file, _ := json.MarshalIndent(model.Users, "", " ")
 
 	err := os.WriteFile(storage, file, 0644)
 	if err != nil {

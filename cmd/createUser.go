@@ -2,13 +2,13 @@ package cmd
 
 import (
 	"fmt"
-	"regexp"
-	"virtualFileSystem/folder"
-	"virtualFileSystem/user"
+	"virtualFileSystem/helper"
+	"virtualFileSystem/model"
 )
 
-func CreateUser(args []string) {
-	var userName = "melissa"
+// CreateUserController checks the input and create a user if everything looks good
+func CreateUserController(args []string) {
+	var userName = ""
 
 	if len(args) >= 1 && args[0] != "" {
 		userName = args[0]
@@ -16,29 +16,17 @@ func CreateUser(args []string) {
 		return
 	}
 
-	// create user
-
-	// check invalid char
-	usernameConvention := "^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$"
-	re, _ := regexp.Compile(usernameConvention)
-	if len(userName) > 40 || len(userName) <= 0 || !re.MatchString(userName) {
-		fmt.Printf("Error: The %s contain invalid chars.\n", userName)
+	// check userName is valid or not
+	if err := helper.CheckUser(userName); err != nil {
 		return
 	}
 
-	// check exist
-	if _, ok := user.UsersMap[userName]; ok {
-		fmt.Printf("Error: The %s has already existed.\n", userName)
+	// check if this user exist
+	if model.UserExist(userName) {
 		return
 	}
 
-	newUser := &user.User{
-		Name:    userName,
-		Folders: map[string]*folder.Folder{},
-	}
-	user.Users = append(user.Users, newUser)
-
-	user.UsersMap[userName] = newUser
+	model.CreateUser(userName)
 
 	fmt.Printf("Add %s successfully.\n", userName)
 }

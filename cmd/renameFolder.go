@@ -2,19 +2,18 @@ package cmd
 
 import (
 	"fmt"
-	"regexp"
-	"virtualFileSystem/folder"
-	"virtualFileSystem/user"
+	"virtualFileSystem/helper"
+	"virtualFileSystem/model"
 )
 
 // rename-folder [username] [foldername] [new-folder-name]
 
 func RenameFolder(args []string) {
-	userName := "melissa"
-	folderName := "melissa_folder"
-	newfolderName := "melissa_folder_description"
+	userName := ""
+	folderName := ""
+	newfolderName := ""
 
-	if len(args) >= 3 && args[0] != "" && args[1] != "" && args[0] != "" {
+	if len(args) >= 3 && args[0] != "" && args[1] != "" && args[2] != "" {
 		userName = args[0]
 		folderName = args[1]
 		newfolderName = args[2]
@@ -22,32 +21,37 @@ func RenameFolder(args []string) {
 		return
 	}
 
-	// check user exist
-	if _, ok := user.UsersMap[userName]; !ok {
-		fmt.Printf("Error: The %s doesn't exist.\n", userName)
+	// check userName is valid or not
+	if err := helper.CheckUser(userName); err != nil {
 		return
 	}
 
-	// check invalid char
-	usernameConvention := "^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$"
-	re, _ := regexp.Compile(usernameConvention)
-	if len(folderName) > 40 || len(folderName) <= 0 || !re.MatchString(folderName) {
-		fmt.Printf("Error: The %s contain invalid chars.", folderName)
+	// check if this user exist
+	if model.UserExist(userName) {
 		return
 	}
 
-	//rename folder
-	currentUser := user.UsersMap[userName]
-	oldFolder := currentUser.Folders[folderName]
-	newFolder := &folder.Folder{
-		Name:        newfolderName,
-		Description: oldFolder.Description,
-		CreatedAt:   oldFolder.CreatedAt,
-		File:        oldFolder.File,
+	// check folderName is valid or not
+	if err := helper.CheckFolder(folderName); err != nil {
+		return
 	}
-	currentUser.Folders[newfolderName] = newFolder
 
-	delete(currentUser.Folders, folderName)
+	// check newfolderName is valid or not
+	if err := helper.CheckFolder(newfolderName); err != nil {
+		return
+	}
 
-	fmt.Printf("Rename %s to %s successfully.\n", folderName, newFolder)
+	// check if this user's folder name exist
+	if !model.FolderExist(userName, folderName) {
+		return
+	}
+
+	// check if this user's new folder name exist
+	if !model.FolderExist(userName, newfolderName) {
+		return
+	}
+
+	model.ReNameFolder(userName, folderName, newfolderName)
+
+	fmt.Printf("Rename %s to %s successfully.\n", folderName, newfolderName)
 }
