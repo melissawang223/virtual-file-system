@@ -8,7 +8,7 @@ import (
 
 // delete-folder [username] [foldername]
 
-func DeleteFolder(args []string) {
+func DeleteFolderController(args []string) {
 	userName := ""
 	folderName := ""
 

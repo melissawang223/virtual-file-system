@@ -61,7 +61,7 @@ This is the command that support in this virtual file system:\
     ```
     help
     ```
-  * exit : exit the program
+  * exit : Exit the program
     ```
     exit
     ```

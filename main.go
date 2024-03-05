@@ -45,20 +45,20 @@ out:
 					cmd.CreateUserController(args[1:])
 
 				case "create-folder":
-					cmd.CreateFolder(args[1:])
+					cmd.CreateFolderController(args[1:])
 				case "delete-folder":
-					cmd.DeleteFolder(args[1:])
+					cmd.DeleteFolderController(args[1:])
 				case "list-folders":
-					cmd.ListFolder(args[1:])
+					cmd.ListFolderController(args[1:])
 				case "rename-folder":
-					cmd.ListFolder(args[1:])
+					cmd.ListFolderController(args[1:])
 
 				case "create-file":
-					cmd.CreateFile(args[1:])
+					cmd.CreateFileController(args[1:])
 				case "delete-file":
-					cmd.DeleteFile(args[1:])
+					cmd.DeleteFileController(args[1:])
 				case "list-files":
-					cmd.ListFile(args[1:])
+					cmd.ListFileController(args[1:])
 
 				case "help":
 					printHelp()

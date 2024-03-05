@@ -6,7 +6,7 @@ import (
 	"virtualFileSystem/model"
 )
 
-func DeleteFile(args []string) {
+func DeleteFileController(args []string) {
 	userName := ""
 	folderName := ""
 	fileName := ""

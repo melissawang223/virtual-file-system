@@ -8,7 +8,7 @@ import (
 
 // list-folders [username] [--sort-name|--sort-created] [asc|desc]
 
-func ListFolder(args []string) {
+func ListFolderController(args []string) {
 	userName := ""
 	sortType := "--sort-name"
 	sortDir := "asc"

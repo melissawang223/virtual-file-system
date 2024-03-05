@@ -7,8 +7,7 @@ import (
 	"virtualFileSystem/model"
 )
 
-// create-file [username] [foldername] [filename] [description]?
-func CreateFile(args []string) {
+func CreateFileController(args []string) {
 
 	userName := ""
 	folderName := ""

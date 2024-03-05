@@ -8,7 +8,7 @@ import (
 
 // rename-folder [username] [foldername] [new-folder-name]
 
-func RenameFolder(args []string) {
+func RenameFolderController(args []string) {
 	userName := ""
 	folderName := ""
 	newfolderName := ""
