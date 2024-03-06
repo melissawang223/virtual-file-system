@@ -17,22 +17,37 @@ func TestCreateUserController(t *testing.T) {
 		args []string
 	}
 	tests := []struct {
-		name string
-		args args
+		name    string
+		args    args
+		wantErr bool
 	}{
 		{
-			name: "Happy Path: register user successfully.",
-			args: args{args: []string{"register", "melissa"}},
+			name:    "Happy Path: register user successfully.",
+			args:    args{args: []string{"melissa"}},
+			wantErr: false,
 		},
 		{
-			name: "unHappy Path: register user successfully.",
-			args: args{args: []string{"register", "melissa!"}},
+			name:    "unHappy Path: username contains special char.",
+			args:    args{args: []string{"melissa!"}},
+			wantErr: true,
+		},
+		{
+			name:    "unHappy Path: username is empty",
+			args:    args{args: []string{""}},
+			wantErr: true,
+		},
+		{
+			name:    "unHappy Path: user has already existed.",
+			args:    args{args: []string{"melissa"}},
+			wantErr: true,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			CreateUserController(tt.args.args)
+			if err := CreateUserController(tt.args.args); (err != nil) != tt.wantErr {
+				t.Errorf("CreateUserController() error = %v, wantErr %v", err, tt.wantErr)
+			}
 		})
 	}
 }

@@ -23,7 +23,6 @@ func main() {
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-c
-		fmt.Println("Catch")
 		saveMemory()
 		os.Exit(1)
 	}()
@@ -42,10 +41,16 @@ out:
 			if len(args) >= 1 && args[0] != "" {
 				switch args[0] {
 				case "register":
-					controller.CreateUserController(args[1:])
+					err = controller.CreateUserController(args[1:])
+					if err != nil {
+						fmt.Fprintf(os.Stderr, err.Error())
+					}
 
 				case "create-folder":
-					controller.CreateFolderController(args[1:])
+					err = controller.CreateFolderController(args[1:])
+					if err != nil {
+						fmt.Fprintf(os.Stderr, err.Error())
+					}
 				case "delete-folder":
 					controller.DeleteFolderController(args[1:])
 				case "list-folders":

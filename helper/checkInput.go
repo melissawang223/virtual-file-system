@@ -15,8 +15,8 @@ func CheckUserName(userName string) error {
 	// check invalid char
 	re, _ := regexp.Compile(userNameConvention)
 	if len(userName) > 10 || len(userName) <= 0 || !re.MatchString(userName) {
-		_ = fmt.Errorf("Error: The username %s contain invalid chars.\n", userName)
-		return errors.New("invalid userName")
+		errMsg := fmt.Sprintf("Error: The username %s contain invalid chars.( Or Length is over 40 )\n", userName)
+		return errors.New(errMsg)
 	}
 	return nil
 }
