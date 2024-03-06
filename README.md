@@ -28,57 +28,142 @@ We will storage the data into local.txt, and read from it when we start the prog
 ## RoadMap
 This is the command that support in this virtual file system:
 ### User:
-* register username
-  * check the username is valid 
-    * username is not empty
-    * length < 10 
-    * only a-z, A-Z and 0-1
-  * check the username has not register before
+#### register username
+* username check
+  * username is not empty
+  * username length < 10 
+  * only a-z, A-Z and 0-9
+* check the username has not registered before
 ```
     register [username]
 ```
-  
-* Folder:
-  * create folder: 
-    ```
-    create-folder [username] [foldername] [description]?
-    ```
-  * delete-folder
-    ```
-    delete-folder [username] [foldername]
-    ```
-  * list-folders
-    ```
-    list-folders [username] [--sort-name|--sort-created] [asc|desc]
-    ```
-  * rename-folder
-    ```
-    rename-folder [username] [foldername] [new-folder-name]
-    ```
-  * File:
-    * create-file
-    ```
-    create-file [username] [foldername] [filename] [description]?
-    ```
-    * delete-file
-    ```
-    delete-file [username] [foldername] [filename]
-    ```
-  * list-files
-    ```
-     list-files [username] [foldername] [--sort-name|--sort-created] [asc|desc]
-    ```
+
+### Folder:
+#### create folder 
+* username check
+  * username is not empty
+  * username length < 10
+  * only a-z, A-Z and 0-9
+* check the user exist
+* foldername check
+  * foldername is not empty
+  * foldername length < 15
+  * only a-z, A-Z and 0-9
+* check the foldername has not existed
+```
+  create-folder [username] [foldername] [description]?
+ ```
+#### delete-folder
+* username check
+  * username is not empty
+  * username length < 10
+  * only a-z, A-Z and 0-9
+* check the user exist
+* foldername check
+  * foldername is not empty
+  * foldername length < 15
+  * only a-z, A-Z and 0-9
+* check the foldername exist 
+  ```
+  delete-folder [username] [foldername]
+  ```
+#### list-folders
+* username check
+  * username is not empty
+  * username length < 10
+  * only a-z, A-Z and 0-9
+* check the user exist
+* check sortType(--sort-name and --sort-created) 
+* check sorDirection (asc and desc)
+* check users does not have empty folder
+```
+  list-folders [username] [--sort-name|--sort-created] [asc|desc]
+```
+#### rename-folder
+* username check
+  * username is not empty
+  * username length < 10
+  * only a-z, A-Z and 0-9
+* foldername check
+  * foldername is not empty
+  * foldername length < 15
+  * only a-z, A-Z and 0-9
+  * check the foldername exist
+* newfoldername check
+  * newfoldername is not empty
+  * newfoldername length < 15
+  * only a-z, A-Z and 0-9
+* check the newfoldername has not exist
+```
+  rename-folder [username] [foldername] [new-folder-name]
+```
+### File:
+#### create-file
+* username check
+  * username is not empty
+  * username length < 10
+  * only a-z, A-Z and 0-9
+* check the user exist
+* foldername check
+  * foldername is not empty
+  * foldername length < 15
+  * only a-z, A-Z and 0-9
+* check the foldername exist
+* filename check
+  * filename is not empty
+  * filename length < 20
+  * only a-z, A-Z and 0-9
+* check the filename has not existed
+```
+  create-file [username] [foldername] [filename] [description]?
+```
+#### delete-file
+* username check
+  * username is not empty
+  * username length < 10
+  * only a-z, A-Z and 0-9
+* check the user exist
+* foldername check
+  * foldername is not empty
+  * foldername length < 15
+  * only a-z, A-Z and 0-9
+* check the foldername exist
+* filename check
+  * filename is not empty
+  * filename length < 20
+  * only a-z, A-Z and 0-9
+* check the filename has existed
+```
+  delete-file [username] [foldername] [filename]
+```
+#### list-files
+* username check
+  * username is not empty
+  * username length < 10
+  * only a-z, A-Z and 0-9
+* check the user exist
+* foldername check
+  * foldername is not empty
+  * foldername length < 15
+  * only a-z, A-Z and 0-9
+* check the foldername exist
+* check sortType(--sort-name and --sort-created)
+* check sorDirection (asc and desc)
+* check the folder does not have empty files
+```
+  list-files [username] [foldername] [--sort-name|--sort-created] [asc|desc]
+```
 
 
-* Others:
-  * help : list all the supported command line
-    ```
-    help
-    ```
-  * exit : Exit the program. We will save the data into the local.txt file
-    ```
-    exit
-    ```
+### Others:
+#### help : list all the supported command line
+```
+  help
+```
+#### exit : Exit the program. We will save the data into the local.txt file
+```
+  exit
+```
 
 ## Getting Started
 

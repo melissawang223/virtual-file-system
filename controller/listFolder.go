@@ -20,7 +20,7 @@ func ListFolderController(args []string) error {
 			return err
 		}
 	} else {
-		return fmt.Errorf("Usage: list-folders [username] [--sort-name|--sort-created] [asc|desc]`")
+		return fmt.Errorf("Usage: list-folders [username] [--sort-name|--sort-created] [asc|desc]\n")
 	}
 
 	// check userName is valid or not
@@ -30,7 +30,7 @@ func ListFolderController(args []string) error {
 
 	// check if this user exist
 	if !model.UserExist(userName) {
-		return fmt.Errorf("Error: The %s has already existed.\n", userName)
+		return fmt.Errorf("Error: The %s has not existed.\n", userName)
 	}
 
 	// check folder exist

@@ -22,7 +22,7 @@ func ListFileController(args []string) error {
 			return err
 		}
 	} else {
-		return fmt.Errorf("Usage: `list-files [username] [foldername] [--sort-name|--sort-created] [asc|desc]`")
+		return fmt.Errorf("Usage: list-files [username] [foldername] [--sort-name|--sort-created] [asc|desc]\n")
 	}
 
 	// check userName is valid or not
@@ -42,15 +42,16 @@ func ListFileController(args []string) error {
 
 	// check if this user's folder exist
 	if !model.FolderExist(userName, folderName) {
-		return fmt.Errorf("Error: The folder %s doesn't exist.\n", userName)
-	}
-
-	// check folder exist
-	currentUser := model.UsersMap[userName]
-	if len(currentUser.Folders) == 0 {
 		return fmt.Errorf("Error: The folder %s doesn't exist.\n", folderName)
 	}
 
-	model.ListFolder(userName, sortType, sortDir)
+	// check if folder is empty
+	currentUser := model.UsersMap[userName]
+	currentFolder := currentUser.Folders[folderName]
+	if len(currentFolder.File) == 0 {
+		return fmt.Errorf("Warning: The folder %s is empty\n", folderName)
+	}
+
+	model.ListFile(userName, folderName, sortType, sortDir)
 	return nil
 }

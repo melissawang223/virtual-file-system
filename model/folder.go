@@ -24,7 +24,6 @@ func CreateFolder(userName, folderName string, newFolder *Folder) {
 
 func FolderExist(userName, folderName string) bool {
 	if _, ok := FolderMap[[2]string{userName, folderName}]; ok {
-		fmt.Printf("Error: The %s has already existed.\n", userName)
 		return true
 	}
 	return false
@@ -72,7 +71,7 @@ func ListFolder(userName, sortType, sortDir string) {
 
 	switch sortType {
 	case "--sort-created":
-		if sortDir == "des" {
+		if sortDir == "desc" {
 			sort.Slice(folders, func(i, j int) bool {
 				return folders[i].CreatedAt > folders[j].CreatedAt
 			})
@@ -84,7 +83,7 @@ func ListFolder(userName, sortType, sortDir string) {
 		}
 
 	default:
-		if sortDir == "des" {
+		if sortDir == "desc" {
 			sort.Slice(folders, func(i, j int) bool {
 				return folders[i].Name > folders[j].Name
 			})

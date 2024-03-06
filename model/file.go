@@ -55,25 +55,25 @@ func ListFile(userName, folderName, sortType, sortDir string) {
 
 	switch sortType {
 	case "--sort-created":
-		if sortDir == "des" {
+		if sortDir == "desc" {
 			sort.Slice(files, func(i, j int) bool {
-				return files[i].CreatedAt < files[j].CreatedAt
+				return files[i].CreatedAt > files[j].CreatedAt
 			})
 		} else {
 			sort.Slice(files, func(i, j int) bool {
-				return files[i].CreatedAt > files[j].CreatedAt
+				return files[i].CreatedAt < files[j].CreatedAt
 			})
 
 		}
 
 	default:
-		if sortDir == "des" {
+		if sortDir == "desc" {
 			sort.Slice(files, func(i, j int) bool {
-				return files[i].Name < files[j].Name
+				return files[i].Name > files[j].Name
 			})
 		} else {
 			sort.Slice(files, func(i, j int) bool {
-				return files[i].Name > files[j].Name
+				return files[i].Name < files[j].Name
 			})
 
 		}
@@ -82,6 +82,6 @@ func ListFile(userName, folderName, sortType, sortDir string) {
 
 	for _, val := range files {
 		t := time.Unix(val.CreatedAt, 0)
-		fmt.Printf("%s %s %s %s %s\n", val.Name, val.Description, t.Format(time.RFC3339), folderName, userName)
+		fmt.Printf("%s %s %s %s %s\n", val.Name, val.Description, t.Format(time.DateTime), folderName, userName)
 	}
 }
