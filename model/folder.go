@@ -62,10 +62,8 @@ func ReNameFolder(userName, folderName, newfolderName string) {
 	CreateFolder(userName, newfolderName, newFolder)
 }
 
-// list folder
 func ListFolder(userName, sortType, sortDir string) {
 
-	//[foldername] [description] [created at] [username]
 	currentUser := UsersMap[userName]
 	folders := make([]Folder, 0)
 	for _, val := range currentUser.Folders {
@@ -99,9 +97,9 @@ func ListFolder(userName, sortType, sortDir string) {
 		}
 
 	}
-	fmt.Printf("%-20s %-50s %-30s %-20s\n", "foldername", "description", "created at", "username")
+
 	for _, val := range folders {
 		t := time.Unix(val.CreatedAt, 0)
-		fmt.Printf("%-20s %-50s %-30s %-20s\n", val.Name, val.Description, t.Format(time.RFC3339), userName)
+		fmt.Printf("%s %s %s %s\n", val.Name, val.Description, t.Format(time.DateTime), userName)
 	}
 }

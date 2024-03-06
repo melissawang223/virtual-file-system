@@ -52,3 +52,14 @@ func CheckFileName(fileName string) error {
 	}
 	return nil
 }
+
+func CheckSortTypeAndSortDir(sortType, sortDir string) error {
+	if sortType != "--sort-name" && sortType != "--sort-created" {
+		return fmt.Errorf("Usage: list-folders [username] [--sort-name|--sort-created] [asc|desc]`")
+	}
+
+	if sortDir != "asc" && sortDir != "desc" {
+		return fmt.Errorf("Usage: list-folders [username] [--sort-name|--sort-created] [asc|desc]`")
+	}
+	return nil
+}

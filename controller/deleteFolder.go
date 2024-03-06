@@ -43,5 +43,5 @@ func DeleteFolderController(args []string) error {
 	model.DeleteFolder(userName, folderName)
 
 	fmt.Fprintf(os.Stdout, "Delete %s successfully.\n", folderName)
-	return
+	return nil
 }

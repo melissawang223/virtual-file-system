@@ -52,11 +52,17 @@ out:
 						fmt.Fprintf(os.Stderr, err.Error())
 					}
 				case "delete-folder":
-					controller.DeleteFolderController(args[1:])
+					err = controller.DeleteFolderController(args[1:])
+					if err != nil {
+						fmt.Fprintf(os.Stderr, err.Error())
+					}
 				case "list-folders":
-					controller.ListFolderController(args[1:])
+					err = controller.ListFolderController(args[1:])
+					if err != nil {
+						fmt.Fprintf(os.Stderr, err.Error())
+					}
 				case "rename-folder":
-					controller.ListFolderController(args[1:])
+					controller.RenameFolderController(args[1:])
 
 				case "create-file":
 					controller.CreateFileController(args[1:])
