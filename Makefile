@@ -1,8 +1,15 @@
+# Makefile
 DC :=
 GO       ?= go
 
-MAIN_CMD = "./main.go"
+MAIN_CMD = "main.go"
 
-run: ## Run application
+# Define the target file
+TARGET_FILE := "local.txt"
+
+run:
 	$(DC) $(GO) run $(MAIN_CMD)
+
+init:
+	echo "[]" > $(TARGET_FILE)
 

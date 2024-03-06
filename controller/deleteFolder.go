@@ -2,47 +2,46 @@ package controller
 
 import (
 	"fmt"
+	"os"
 	"virtualFileSystem/helper"
 	"virtualFileSystem/model"
 )
 
 // delete-folder [username] [foldername]
 
-func DeleteFolderController(args []string) {
+func DeleteFolderController(args []string) error {
 	userName := ""
 	folderName := ""
 
-	if len(args) >= 2 && args[0] != "" && args[1] != "" {
+	if len(args) >= 2 {
 		userName = args[0]
 		folderName = args[1]
 	} else {
-		fmt.Println("Error: The Input is insufficient.")
-		return
+		return fmt.Errorf("Usage: delete-folder [username] [foldername]")
 	}
 
 	// check userName is valid or not
 	if err := helper.CheckUserName(userName); err != nil {
-		return
+		return err
 	}
 
 	// check if this user exist
 	if !model.UserExist(userName) {
-		fmt.Printf("Error: The User %s doesn't exist.\n", userName)
-		return
+		return fmt.Errorf("Error: The User %s doesn't exist.\n", userName)
 	}
 
 	// check folderName is valid or not
 	if err := helper.CheckFolderName(folderName); err != nil {
-		return
+		return err
 	}
 
 	// check if this user exist
 	if !model.FolderExist(userName, folderName) {
-		fmt.Printf("Error: The Folder %s doesn't exist.\n", folderName)
-		return
+		return fmt.Errorf("Error: The Folder %s doesn't exist.\n", folderName)
 	}
 
 	model.DeleteFolder(userName, folderName)
 
-	fmt.Printf("Delete %s successfully.\n", folderName)
+	fmt.Fprintf(os.Stdout, "Delete %s successfully.\n", folderName)
+	return
 }
