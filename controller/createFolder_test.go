@@ -2,15 +2,7 @@ package controller
 
 import (
 	"testing"
-	"virtualFileSystem/model"
 )
-
-func init() {
-	model.Users = make([]*model.User, 0)
-	model.UsersMap = map[string]*model.User{}
-	model.FolderMap = map[[2]string]*model.Folder{}
-	model.FileMap = map[[3]string]*model.File{}
-}
 
 func TestCreateFolderController(t *testing.T) {
 	type args struct {
@@ -42,7 +34,7 @@ func TestCreateFolderController(t *testing.T) {
 			wantErr: true,
 		},
 	}
-
+	InitData()
 	CreateUserController([]string{"melissa"})
 
 	for _, tt := range tests {

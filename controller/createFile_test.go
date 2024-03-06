@@ -42,7 +42,7 @@ func TestCreateFileController(t *testing.T) {
 			wantErr: true,
 		},
 	}
-
+	InitData()
 	CreateUserController([]string{"melissa"})
 	CreateFolderController([]string{"melissa", "foldername"})
 	for _, tt := range tests {

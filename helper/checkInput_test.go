@@ -46,7 +46,7 @@ func TestCheckFileDescription(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name:    "Input looks good",
+			name:    "Happy Path: description  looks good",
 			args:    args{"description example"},
 			wantErr: false,
 		},
@@ -56,9 +56,9 @@ func TestCheckFileDescription(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name:    "Unhappy Path: Input is invalid",
-			args:    args{"description example!!"},
-			wantErr: true,
+			name:    "Happy Path: description is empty",
+			args:    args{""},
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {

@@ -37,7 +37,7 @@ func TestListFolderController(t *testing.T) {
 			wantErr: true,
 		},
 	}
-
+	InitData()
 	CreateUserController([]string{"melissa"})
 	CreateFolderController([]string{"melissa", "foldername"})
 	CreateFolderController([]string{"melissa", "foldername1"})

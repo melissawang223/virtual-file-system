@@ -179,19 +179,30 @@ make init
 ```
 
 
-* Then we could start the program by 'make run' or 'go run main.go'
+* Then we could start the program by building the file
+```
+make build
+```
 
+* Then we could run the program with 
 ```
 make run
 ```
-or 
+
+### Run the unit tests
+
+* Run all the unit tests
 ```
-go run main.go 
+  make test
+```
+* Run all test coverage
+```
+  make test_coverage
 ```
 
 ## Help
 
-Contact me if you got any trouble
+Contact me if you got any trouble on running the program
 
 
 ## Authors

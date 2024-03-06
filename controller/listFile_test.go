@@ -17,6 +17,11 @@ func TestListFileController(t *testing.T) {
 			wantErr: false,
 		},
 		{
+			name:    "unHappy Path: list-file --sort-name asc failed: folder empty.",
+			args:    args{args: []string{"melissa", "noFileFolder", "--sort-name", "asc"}},
+			wantErr: true,
+		},
+		{
 			name:    "Happy Path: list-file --sort-created asc successfully.",
 			args:    args{args: []string{"melissa", "foldername", "--sort-created", "asc"}},
 			wantErr: false,
@@ -42,10 +47,11 @@ func TestListFileController(t *testing.T) {
 			wantErr: true,
 		},
 	}
-
+	InitData()
 	CreateUserController([]string{"melissa"})
 	CreateFolderController([]string{"melissa", "foldername"})
-
+	CreateFileController([]string{"melissa", "foldername", "filename"})
+	CreateFolderController([]string{"melissa", "noFileFolder"})
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := ListFileController(tt.args.args); (err != nil) != tt.wantErr {

@@ -47,7 +47,7 @@ func TestDeleteFileController(t *testing.T) {
 			wantErr: true,
 		},
 	}
-
+	InitData()
 	CreateUserController([]string{"melissa"})
 	CreateFolderController([]string{"melissa", "foldername"})
 	CreateFileController([]string{"melissa", "foldername", "filename"})
