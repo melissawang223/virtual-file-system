@@ -26,7 +26,6 @@ func main() {
 		saveMemory()
 		os.Exit(1)
 	}()
-	printHelp()
 out:
 	for {
 		buf := bufio.NewReader(os.Stdin)
@@ -62,7 +61,10 @@ out:
 						fmt.Fprintf(os.Stderr, err.Error())
 					}
 				case "rename-folder":
-					controller.RenameFolderController(args[1:])
+					err = controller.RenameFolderController(args[1:])
+					if err != nil {
+						fmt.Fprintf(os.Stderr, err.Error())
+					}
 
 				case "create-file":
 					controller.CreateFileController(args[1:])

@@ -8,21 +8,17 @@ import (
 
 // list-folders [username] [--sort-name|--sort-created] [asc|desc]
 
-func ListFileController(args []string) {
+func ListFileController(args []string) error {
 	userName := ""
 	folderName := ""
-	sortType := "--sort-name"
-	sortDir := "asc"
+	sortType := ""
+	sortDir := ""
 
-	if len(args) >= 2 && args[0] != "" && args[1] != "" {
+	if len(args) >= 3 {
 		userName = args[0]
 		folderName = args[1]
-		if len(args) >= 3 && args[2] != "" {
-			sortType = args[2]
-		}
-		if len(args) >= 4 && args[3] != "" {
-			sortDir = args[3]
-		}
+		sortType = args[2]
+		sortDir = args[3]
 	} else {
 		fmt.Println("Error: The Input is insufficient.")
 		return
