@@ -67,11 +67,20 @@ out:
 					}
 
 				case "create-file":
-					controller.CreateFileController(args[1:])
+					err = controller.CreateFileController(args[1:])
+					if err != nil {
+						fmt.Fprintf(os.Stderr, err.Error())
+					}
 				case "delete-file":
-					controller.DeleteFileController(args[1:])
+					err = controller.DeleteFileController(args[1:])
+					if err != nil {
+						fmt.Fprintf(os.Stderr, err.Error())
+					}
 				case "list-files":
-					controller.ListFileController(args[1:])
+					err = controller.ListFileController(args[1:])
+					if err != nil {
+						fmt.Fprintf(os.Stderr, err.Error())
+					}
 
 				case "help":
 					printHelp()

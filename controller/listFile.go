@@ -40,7 +40,7 @@ func ListFileController(args []string) error {
 
 	// check if this user's folder exist
 	if !model.FolderExist(userName, folderName) {
-		return
+		return fmt.Errorf("Error: The folder %s doesn't exist.\n", userName)
 	}
 
 	// check folder exist
