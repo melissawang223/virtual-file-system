@@ -9,7 +9,7 @@ import (
 	"os/signal"
 	"strings"
 	"syscall"
-	"virtualFileSystem/cmd"
+	"virtualFileSystem/controller"
 	"virtualFileSystem/model"
 )
 
@@ -42,23 +42,23 @@ out:
 			if len(args) >= 1 && args[0] != "" {
 				switch args[0] {
 				case "register":
-					cmd.CreateUserController(args[1:])
+					controller.CreateUserController(args[1:])
 
 				case "create-folder":
-					cmd.CreateFolderController(args[1:])
+					controller.CreateFolderController(args[1:])
 				case "delete-folder":
-					cmd.DeleteFolderController(args[1:])
+					controller.DeleteFolderController(args[1:])
 				case "list-folders":
-					cmd.ListFolderController(args[1:])
+					controller.ListFolderController(args[1:])
 				case "rename-folder":
-					cmd.ListFolderController(args[1:])
+					controller.ListFolderController(args[1:])
 
 				case "create-file":
-					cmd.CreateFileController(args[1:])
+					controller.CreateFileController(args[1:])
 				case "delete-file":
-					cmd.DeleteFileController(args[1:])
+					controller.DeleteFileController(args[1:])
 				case "list-files":
-					cmd.ListFileController(args[1:])
+					controller.ListFileController(args[1:])
 
 				case "help":
 					printHelp()
@@ -66,6 +66,7 @@ out:
 					saveMemory()
 					break out
 				default:
+					fmt.Println(" Error: Unrecognized command")
 					fmt.Printf("Your input: %s did not match any operation we support.\n", args[0])
 					fmt.Println("Please check out the supporting operation with 'help', or type 'exit' to leave")
 				}
@@ -76,11 +77,14 @@ out:
 	}
 }
 
-func readToMemory() {
+func init() {
 	model.Users = make([]*model.User, 0)
 	model.UsersMap = map[string]*model.User{}
 	model.FolderMap = map[[2]string]*model.Folder{}
 	model.FileMap = map[[3]string]*model.File{}
+}
+
+func readToMemory() {
 
 	byt, err := os.ReadFile(storage)
 	if err != nil {

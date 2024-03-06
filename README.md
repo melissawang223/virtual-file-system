@@ -4,19 +4,19 @@ Create a virtual file system using Golang
 
 ## Description
 
-* We could register users.
-  * A user name should only contains a-z, A-Z and 0-9.
-  * A user name's length should be less than 20
-* Each user could have plenty of folders.
-  * A folder name should only contains a-z, A-Z and 0-9.
-  * A folder name's length should be less than 20
-* Each folder could have a optional description
-  * The length of the description should less than 50
-* Each folder could save plenty of files. 
+* User: We could register users.
+  * A username should only contain a-z, A-Z and 0-9.
+  * A username's length should be less than 10
+* Folder: Each user could have plenty of folders.
+  * A folder name should only contain a-z, A-Z and 0-9.
+  * A folder name's length should be less than 15
+  * Each folder could have a optional description
+    * The length of the description should less than 30
+* File: Each folder could save plenty of files. 
   * A file name should only contains a-z, A-Z and 0-9.
   * A file name's length should be less than 20
-* Each file could have a optional description
-    * The length of the description should less than 50
+  * Each file could have a optional description
+      * The length of the description should less than 30
 
 This is the command that support in this virtual file system:\
 * User:

@@ -1,4 +1,4 @@
-package cmd
+package controller
 
 import (
 	"fmt"
@@ -13,18 +13,18 @@ func CreateUserController(args []string) {
 	if len(args) >= 1 && args[0] != "" {
 		userName = args[0]
 	} else {
-		fmt.Println("Error: The Input is insufficient.")
+		_ = fmt.Errorf(" Usage: register [username]")
 		return
 	}
 
 	// check userName is valid or not
-	if err := helper.CheckUser(userName); err != nil {
+	if err := helper.CheckUserName(userName); err != nil {
 		return
 	}
 
 	// check if this user exist
 	if model.UserExist(userName) {
-		fmt.Printf("Error: The %s has already existed.\n", userName)
+		_ = fmt.Errorf("Error: The %s has already existed.\n", userName)
 		return
 	}
 

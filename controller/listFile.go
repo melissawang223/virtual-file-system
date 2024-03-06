@@ -1,4 +1,4 @@
-package cmd
+package controller
 
 import (
 	"fmt"
@@ -29,7 +29,7 @@ func ListFileController(args []string) {
 	}
 
 	// check userName is valid or not
-	if err := helper.CheckUser(userName); err != nil {
+	if err := helper.CheckUserName(userName); err != nil {
 		fmt.Println("Error: The User Input is not ok.")
 		return
 	}
@@ -41,7 +41,7 @@ func ListFileController(args []string) {
 	}
 
 	// check folderName is valid or not
-	if err := helper.CheckFolder(folderName); err != nil {
+	if err := helper.CheckFolderName(folderName); err != nil {
 		return
 	}
 

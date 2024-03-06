@@ -1,4 +1,4 @@
-package cmd
+package controller
 
 import (
 	"fmt"
@@ -26,7 +26,7 @@ func ListFolderController(args []string) {
 	}
 
 	// check userName is valid or not
-	if err := helper.CheckUser(userName); err != nil {
+	if err := helper.CheckUserName(userName); err != nil {
 		return
 	}
 
