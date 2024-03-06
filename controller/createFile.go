@@ -22,7 +22,7 @@ func CreateFileController(args []string) {
 			description = args[3]
 		}
 	} else {
-		fmt.Println("Error: The Input is insufficient.")
+		fmt.Println("Usage: create-folder [username] [foldername] [description]?`")
 		return
 	}
 

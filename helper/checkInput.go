@@ -26,7 +26,7 @@ func CheckFolderName(folderName string) error {
 	// check invalid char
 	re, _ := regexp.Compile(folderNameConvention)
 	if len(folderName) > 15 || len(folderName) <= 0 || !re.MatchString(folderName) {
-		fmt.Printf("Error: The folderName %s contain invalid chars.\n", folderName)
+		fmt.Printf("Error: The foldername %s contain invalid chars.\n", folderName)
 		return errors.New("invalid folderName")
 	}
 	return nil

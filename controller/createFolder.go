@@ -19,7 +19,7 @@ func CreateFolderController(args []string) {
 			description = args[2]
 		}
 	} else {
-		fmt.Println("Error: The Input is insufficient.")
+		_ = fmt.Errorf("Usage: create-folder [username] [foldername] [description]?`")
 		return
 	}
 
@@ -30,7 +30,7 @@ func CreateFolderController(args []string) {
 
 	// check if this user exist
 	if !model.UserExist(userName) {
-		fmt.Printf("Error: The %s doesn't exist.\n", userName)
+		_ = fmt.Errorf("Error: The %s doesn't exist.\n", userName)
 		return
 	}
 
@@ -41,13 +41,13 @@ func CreateFolderController(args []string) {
 
 	// check if this user's folder exist
 	if model.FolderExist(userName, folderName) {
-		fmt.Printf("Error: The %s already exist.\n", folderName)
+		_ = fmt.Errorf("Error: The %s already exist.\n", folderName)
 		return
 	}
 
 	// check folder description is valid or not
 	if err := helper.CheckFileDescription(description); err != nil {
-		fmt.Printf("Error: The Description %s is not valid: the length should less than 100.\n", description)
+		_ = fmt.Errorf("Error: The Description %s is not valid: the length should less than 30.\n", description)
 		return
 	}
 

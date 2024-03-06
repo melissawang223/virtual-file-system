@@ -82,6 +82,10 @@ This is the command that support in this virtual file system:\
 * type the following script to start the program
 
 ```
+make run
+```
+or 
+```
 go run main.go 
 ```
 
