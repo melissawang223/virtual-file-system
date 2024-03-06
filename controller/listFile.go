@@ -6,19 +6,21 @@ import (
 	"virtualFileSystem/model"
 )
 
-// list-folders [username] [--sort-name|--sort-created] [asc|desc]
-
 func ListFileController(args []string) error {
 	userName := ""
 	folderName := ""
 	sortType := ""
 	sortDir := ""
 
-	if len(args) >= 3 {
+	if len(args) >= 4 {
 		userName = args[0]
 		folderName = args[1]
 		sortType = args[2]
 		sortDir = args[3]
+		// check sortType and sortDir
+		if err := helper.CheckSortTypeAndSortDir(sortType, sortDir); err != nil {
+			return err
+		}
 	} else {
 		return fmt.Errorf("Usage: `list-files [username] [foldername] [--sort-name|--sort-created] [asc|desc]`")
 	}
