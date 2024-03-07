@@ -6,14 +6,12 @@ import (
 	"regexp"
 )
 
-var userNameConvention = `"([a-zA-Z0-9\s]+)"|([a-zA-Z0-9]+)`
-var folderNameConvention = `"([a-zA-Z0-9\s]+)"|([a-zA-Z0-9]+)`
-var fileNameConvention = `"([a-zA-Z0-9\s]+)"|([a-zA-Z0-9]+)`
+var nameConvention = `"([a-zA-Z0-9\s]+)"|^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$`
 
 func CheckUserName(userName string) error {
 
 	// check invalid char
-	re, _ := regexp.Compile(userNameConvention)
+	re, _ := regexp.Compile(nameConvention)
 	if len(userName) > 10 || len(userName) <= 0 || !re.MatchString(userName) {
 		return fmt.Errorf("Error: The username %s contain invalid chars.( Or Length is over 40 )\n", userName)
 	}
