@@ -16,7 +16,7 @@ func DeleteFileController(args []string) error {
 		folderName = args[1]
 		fileName = args[2]
 	} else {
-		return fmt.Errorf("Usage: `delete-file [username] [foldername] [filename]`")
+		return fmt.Errorf("Usage: `delete-file [username] [foldername] [filename]`\n")
 	}
 
 	// check userName is valid or not

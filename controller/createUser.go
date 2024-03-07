@@ -14,7 +14,7 @@ func CreateUserController(args []string) error {
 	if len(args) >= 1 {
 		userName = args[0]
 	} else {
-		return fmt.Errorf(" Usage: register [username]")
+		return fmt.Errorf(" Usage: register [username]\n")
 	}
 
 	// check userName is valid or not

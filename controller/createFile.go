@@ -22,7 +22,7 @@ func CreateFileController(args []string) error {
 			description = args[3]
 		}
 	} else {
-		return fmt.Errorf("Usage: create-file [username] [foldername] [filename] [description]?")
+		return fmt.Errorf("Usage: create-file [username] [foldername] [filename] [description]?\n")
 	}
 
 	// check userName is valid or not

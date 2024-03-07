@@ -16,7 +16,7 @@ func RenameFolderController(args []string) error {
 		folderName = args[1]
 		newfolderName = args[2]
 	} else {
-		return fmt.Errorf("Usage: rename-folder [username] [foldername] [new-folder-name]`")
+		return fmt.Errorf("Usage: rename-folder [username] [foldername] [new-folder-name]`\n")
 	}
 
 	// check userName is valid or not
