@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"time"
 	"virtualFileSystem/helper"
 	"virtualFileSystem/model"
 )
@@ -40,6 +41,14 @@ func ListFolderController(args []string) error {
 	}
 
 	//list folder
-	model.ListFolder(userName, sortType, sortDir)
+	folders := model.ListFolder(userName, sortType, sortDir)
+	printFolders(userName, folders)
 	return nil
+}
+
+func printFolders(userName string, folders []model.Folder) {
+	for _, val := range folders {
+		t := time.Unix(val.CreatedAt, 0)
+		fmt.Printf("%s %s %s %s\n", val.Name, val.Description, t.Format(time.DateTime), userName)
+	}
 }

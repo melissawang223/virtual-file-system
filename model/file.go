@@ -3,7 +3,6 @@ package model
 import (
 	"fmt"
 	"sort"
-	"time"
 )
 
 var FileMap map[[3]string]*File
@@ -78,9 +77,5 @@ func ListFile(userName, folderName, sortType, sortDir string) []File {
 
 	}
 
-	for _, val := range files {
-		t := time.Unix(val.CreatedAt, 0)
-		fmt.Printf("%s %s %s %s %s\n", val.Name, val.Description, t.Format(time.DateTime), folderName, userName)
-	}
 	return files
 }

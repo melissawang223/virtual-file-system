@@ -1,9 +1,7 @@
 package model
 
 import (
-	"fmt"
 	"sort"
-	"time"
 )
 
 var FolderMap map[[2]string]*Folder
@@ -95,11 +93,6 @@ func ListFolder(userName, sortType, sortDir string) []Folder {
 
 		}
 
-	}
-
-	for _, val := range folders {
-		t := time.Unix(val.CreatedAt, 0)
-		fmt.Printf("%s %s %s %s\n", val.Name, val.Description, t.Format(time.DateTime), userName)
 	}
 
 	return folders

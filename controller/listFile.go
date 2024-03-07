@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"time"
 	"virtualFileSystem/helper"
 	"virtualFileSystem/model"
 )
@@ -52,6 +53,15 @@ func ListFileController(args []string) error {
 		return fmt.Errorf("Warning: The folder %s is empty\n", folderName)
 	}
 
-	model.ListFile(userName, folderName, sortType, sortDir)
+	files := model.ListFile(userName, folderName, sortType, sortDir)
+
+	printFiles(userName, folderName, files)
 	return nil
+}
+
+func printFiles(userName, folderName string, files []model.File) {
+	for _, val := range files {
+		t := time.Unix(val.CreatedAt, 0)
+		fmt.Printf("%s %s %s %s %s\n", val.Name, val.Description, t.Format(time.DateTime), folderName, userName)
+	}
 }
