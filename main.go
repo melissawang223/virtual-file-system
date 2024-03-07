@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
-	"strings"
+	"regexp"
 	"syscall"
 	"virtualFileSystem/controller"
 	"virtualFileSystem/model"
@@ -36,8 +36,40 @@ out:
 			fmt.Println(err)
 		} else {
 
-			args := strings.Fields(sentence)
-			if len(args) >= 1 && args[0] != "" {
+			args := processArg(sentence)
+			if argErr != nil && len(args) >= 1 && args[0] != "" {
+				switch args[0] {
+				case "register":
+					fmt.Fprintf(os.Stderr, "Usage: register [username]\n")
+
+				case "create-folder":
+					fmt.Fprintf(os.Stderr, "Usage: create-folder [username] [foldername] [description]?`\n")
+
+				case "delete-folder":
+					fmt.Fprintf(os.Stderr, "Usage: delete-folder [username] [foldername]\n")
+
+				case "list-folders":
+					fmt.Fprintf(os.Stderr, "Usage: list-folders [username] [--sort-name|--sort-created] [asc|desc]\n")
+
+				case "rename-folder":
+					fmt.Fprintf(os.Stderr, "Usage: rename-folder [username] [foldername] [new-folder-name]\n")
+
+				case "create-file":
+					fmt.Fprintf(os.Stderr, "Usage: create-file [username] [foldername] [filename] [description]?\n")
+
+				case "delete-file":
+					fmt.Fprintf(os.Stderr, "Usage: `delete-file [username] [foldername] [filename]\n")
+
+				case "list-files":
+					fmt.Fprintf(os.Stderr, "Usage: list-files [username] [foldername] [--sort-name|--sort-created] [asc|desc]\n")
+
+				default:
+					fmt.Println(" Error: Unrecognized command")
+					fmt.Printf("Your input: %s did not match any operation we support.\n", args[0])
+					fmt.Println("Please check out the supporting operation with 'help', or type 'exit' to leave")
+				}
+
+			} else if len(args) >= 1 && args[0] != "" {
 
 				switch args[0] {
 				case "register":
@@ -93,8 +125,12 @@ out:
 					fmt.Printf("Your input: %s did not match any operation we support.\n", args[0])
 					fmt.Println("Please check out the supporting operation with 'help', or type 'exit' to leave")
 				}
-			}
 
+			} else {
+				fmt.Println(" Error: Unrecognized command")
+				fmt.Printf("Your input: %s did not match any operation we support.\n", args[0])
+				fmt.Println("Please check out the supporting operation with 'help', or type 'exit' to leave")
+			}
 		}
 
 	}
@@ -158,46 +194,37 @@ func printHelp() {
 	fmt.Println(">\t exit")
 }
 
-func processArg(input, op string) ([]string, error) {
+func processArg(inputString string) []string {
 	args := make([]string, 0)
-	input = strings.TrimSpace(input)
+	// Define the regular expression pattern
+	pattern := `"[a-zA-Z0-9\s]+"|([a-zA-Z0-9]+)`
 
-	firstOpIdx := strings.Index(input, op)
+	// Compile the regular expression
+	regexpObj := regexp.MustCompile(pattern)
 
-	// Check if a space is found
-	if firstOpIdx != -1 {
-		input = input[firstOpIdx+len(op):]
-	} else {
-		return args, fmt.Errorf("Error Input")
-	}
+	// Find matches in the input string
+	matches := regexpObj.FindAllStringSubmatch(inputString, -1)
 
-	input = strings.TrimSpace(input)
-	pre := 0
-
-	for i := 0; i < len(input); i++ {
-		cur := input[i]
-		if cur == '"' {
-			pre = i
-			i++
-			for i < len(input) && input[i] != '"' {
-				i++
-			}
-			if i < len(input) && input[i] == '"' {
-				args = append(args, input[pre:i+1])
-				i++
-				for i < len(input) && input[i] == ' ' {
-					i++
+	// Print the matches
+	for _, match := range matches {
+		for _, group := range match {
+			if group != "" {
+				// Check if the group contains special characters
+				if isAlphanumeric(group) {
+					args = append(args, group)
 				}
-				pre = i
-			} else {
-				return []string{}, fmt.Errorf("Invalid input")
-			}
-		} else {
-			if i == len(input)-1 || input[i] == ' ' {
-				args = append(args, input[pre:i+1])
-				pre = i + 1
 			}
 		}
 	}
-	return args, nil
+	return args
+}
+
+// Function to check if a string contains only alphanumeric characters
+func isAlphanumeric(s string) bool {
+	for _, char := range s {
+		if (char < 'A' || (char > 'Z' && char < 'a') || char > 'z') && (char < '0' || char > '9') {
+			return false
+		}
+	}
+	return true
 }

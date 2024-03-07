@@ -7,8 +7,8 @@ import (
 )
 
 var userNameConvention = `"([a-zA-Z0-9\s]+)"|([a-zA-Z0-9]+)`
-var folderNameConvention = "^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$"
-var fileNameConvention = "^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$"
+var folderNameConvention = `"([a-zA-Z0-9\s]+)"|([a-zA-Z0-9]+)`
+var fileNameConvention = `"([a-zA-Z0-9\s]+)"|([a-zA-Z0-9]+)`
 
 func CheckUserName(userName string) error {
 

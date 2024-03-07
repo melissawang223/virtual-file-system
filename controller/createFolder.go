@@ -20,7 +20,7 @@ func CreateFolderController(args []string) error {
 			description = args[2]
 		}
 	} else {
-		return fmt.Errorf("usage: create-folder [username] [foldername] [description]?`\n")
+		return fmt.Errorf("Usage: create-folder [username] [foldername] [description]?`\n")
 	}
 
 	// check userName is valid or not
