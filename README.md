@@ -2,9 +2,12 @@
 
 Create a virtual file system using Golang
 
+* main branch is the basic function
+* feature/bonus branch is the bonus function
+
 ## Description
 
-We will storage the data into local.txt, and read from it when we start the program.
+We will store the data into local.txt, and read from it when we start the program.
 
 ### User: We could register users.
   * A username should only contain a-z, A-Z and 0-9.
