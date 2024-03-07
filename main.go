@@ -38,6 +38,7 @@ out:
 
 			args := strings.Fields(sentence)
 			if len(args) >= 1 && args[0] != "" {
+
 				switch args[0] {
 				case "register":
 					err = controller.CreateUserController(args[1:])
@@ -155,4 +156,48 @@ func printHelp() {
 	fmt.Println("> Others:")
 	fmt.Println(">\t help")
 	fmt.Println(">\t exit")
+}
+
+func processArg(input, op string) ([]string, error) {
+	args := make([]string, 0)
+	input = strings.TrimSpace(input)
+
+	firstOpIdx := strings.Index(input, op)
+
+	// Check if a space is found
+	if firstOpIdx != -1 {
+		input = input[firstOpIdx+len(op):]
+	} else {
+		return args, fmt.Errorf("Error Input")
+	}
+
+	input = strings.TrimSpace(input)
+	pre := 0
+
+	for i := 0; i < len(input); i++ {
+		cur := input[i]
+		if cur == '"' {
+			pre = i
+			i++
+			for i < len(input) && input[i] != '"' {
+				i++
+			}
+			if i < len(input) && input[i] == '"' {
+				args = append(args, input[pre:i+1])
+				i++
+				for i < len(input) && input[i] == ' ' {
+					i++
+				}
+				pre = i
+			} else {
+				return []string{}, fmt.Errorf("Invalid input")
+			}
+		} else {
+			if i == len(input)-1 || input[i] == ' ' {
+				args = append(args, input[pre:i+1])
+				pre = i + 1
+			}
+		}
+	}
+	return args, nil
 }
