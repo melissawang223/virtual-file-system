@@ -4,13 +4,12 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
-	"github.com/google/uuid"
 	"log"
 	"os"
 	"os/signal"
-	"strings"
 	"syscall"
 	"virtualFileSystem/controller"
+	"virtualFileSystem/helper"
 	"virtualFileSystem/model"
 )
 
@@ -37,7 +36,7 @@ out:
 			fmt.Println(err)
 		} else {
 
-			args, argErr := processArg(sentence)
+			args, argErr := helper.CheckArguments(sentence)
 			if argErr != nil && len(args) >= 1 && args[0] != "" {
 				switch args[0] {
 				case "register":
@@ -193,41 +192,4 @@ func printHelp() {
 	fmt.Println("> Others:")
 	fmt.Println(">\t help")
 	fmt.Println(">\t exit")
-}
-
-func processArg(input string) ([]string, error) {
-	args := make([]string, 0)
-
-	temp := ""
-
-	hsMap := map[string]string{}
-
-	for i := 0; i < len(input); i++ {
-		cur := input[i]
-		if cur == '"' {
-			pre := i
-			i++
-			for i < len(input) && input[i] != '"' {
-				i++
-			}
-			if i < len(input) && input[i] == '"' {
-				key := uuid.New().String()
-				hsMap[key] = input[pre : i+1]
-				temp += key
-			} else {
-				return []string{}, fmt.Errorf("Invalid input")
-			}
-		} else {
-			temp += string(cur)
-		}
-	}
-
-	args = strings.Fields(temp)
-
-	for idx, val := range args {
-		if double, ok := hsMap[val]; ok {
-			args[idx] = double
-		}
-	}
-	return args, nil
 }

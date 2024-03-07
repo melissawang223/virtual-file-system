@@ -3,7 +3,9 @@ package helper
 import (
 	"errors"
 	"fmt"
+	"github.com/google/uuid"
 	"regexp"
+	"strings"
 )
 
 var nameConvention = `"([a-zA-Z0-9\s]+)"|^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$`
@@ -57,4 +59,41 @@ func CheckSortTypeAndSortDir(sortType, sortDir string) error {
 		return fmt.Errorf("Usage: list-folders [username] [--sort-name|--sort-created] [asc|desc]`")
 	}
 	return nil
+}
+
+func CheckArguments(input string) ([]string, error) {
+	args := make([]string, 0)
+
+	temp := ""
+
+	hsMap := map[string]string{}
+
+	for i := 0; i < len(input); i++ {
+		cur := input[i]
+		if cur == '"' {
+			pre := i
+			i++
+			for i < len(input) && input[i] != '"' {
+				i++
+			}
+			if i < len(input) && input[i] == '"' {
+				key := uuid.New().String()
+				hsMap[key] = input[pre : i+1]
+				temp += key
+			} else {
+				return []string{}, fmt.Errorf("Invalid input")
+			}
+		} else {
+			temp += string(cur)
+		}
+	}
+
+	args = strings.Fields(temp)
+
+	for idx, val := range args {
+		if double, ok := hsMap[val]; ok {
+			args[idx] = double
+		}
+	}
+	return args, nil
 }
