@@ -21,7 +21,7 @@ func CheckUserName(userName string) error {
 func CheckFolderName(folderName string) error {
 
 	// check invalid char
-	re, _ := regexp.Compile(folderNameConvention)
+	re, _ := regexp.Compile(nameConvention)
 	if len(folderName) > 15 || len(folderName) <= 0 || !re.MatchString(folderName) {
 		return fmt.Errorf("Error: The foldername %s contain invalid chars.\n", folderName)
 	}
@@ -41,7 +41,7 @@ func CheckFileDescription(fileDes string) error {
 func CheckFileName(fileName string) error {
 
 	// check invalid char
-	re, _ := regexp.Compile(fileNameConvention)
+	re, _ := regexp.Compile(nameConvention)
 	if len(fileName) > 20 || len(fileName) <= 0 || !re.MatchString(fileName) {
 		return fmt.Errorf("Error: The fileName %s contain invalid chars.\n", fileName)
 	}
