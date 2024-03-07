@@ -38,14 +38,12 @@ func DeleteFile(userName, folderName, fileName string) {
 	//delete folder
 	currentUser := UsersMap[userName]
 	currentFolder := currentUser.Folders[folderName]
-	delete(currentFolder.File, folderName)
+	delete(currentFolder.File, fileName)
 	delete(FileMap, [3]string{userName, folderName, fileName})
 }
 
-// `[filename]` `[description]` `[created at]` `[foldername]` `[username]`
-func ListFile(userName, folderName, sortType, sortDir string) {
+func ListFile(userName, folderName, sortType, sortDir string) []File {
 
-	//[foldername] [description] [created at] [username]
 	currentUser := UsersMap[userName]
 	currentFolder := currentUser.Folders[folderName]
 	files := make([]File, 0)
@@ -84,4 +82,5 @@ func ListFile(userName, folderName, sortType, sortDir string) {
 		t := time.Unix(val.CreatedAt, 0)
 		fmt.Printf("%s %s %s %s %s\n", val.Name, val.Description, t.Format(time.DateTime), folderName, userName)
 	}
+	return files
 }
