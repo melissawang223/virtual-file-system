@@ -1,13 +1,1 @@
-[
- {
-  "Name": "m1",
-  "Folders": {
-   "f1": {
-    "Name": "f1",
-    "Description": "d-1",
-    "CreatedAt": 1709796326,
-    "File": {}
-   }
-  }
- }
-]
+[]
