@@ -4,10 +4,11 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"github.com/google/uuid"
 	"log"
 	"os"
 	"os/signal"
-	"regexp"
+	"strings"
 	"syscall"
 	"virtualFileSystem/controller"
 	"virtualFileSystem/model"
@@ -36,7 +37,7 @@ out:
 			fmt.Println(err)
 		} else {
 
-			args := processArg(sentence)
+			args, argErr := processArg(sentence)
 			if argErr != nil && len(args) >= 1 && args[0] != "" {
 				switch args[0] {
 				case "register":
@@ -194,37 +195,39 @@ func printHelp() {
 	fmt.Println(">\t exit")
 }
 
-func processArg(inputString string) []string {
+func processArg(input string) ([]string, error) {
 	args := make([]string, 0)
-	// Define the regular expression pattern
-	pattern := `"[a-zA-Z0-9\s]+"|([a-zA-Z0-9]+)`
 
-	// Compile the regular expression
-	regexpObj := regexp.MustCompile(pattern)
+	temp := ""
 
-	// Find matches in the input string
-	matches := regexpObj.FindAllStringSubmatch(inputString, -1)
+	hsMap := map[string]string{}
 
-	// Print the matches
-	for _, match := range matches {
-		for _, group := range match {
-			if group != "" {
-				// Check if the group contains special characters
-				if isAlphanumeric(group) {
-					args = append(args, group)
-				}
+	for i := 0; i < len(input); i++ {
+		cur := input[i]
+		if cur == '"' {
+			pre := i
+			i++
+			for i < len(input) && input[i] != '"' {
+				i++
 			}
+			if i < len(input) && input[i] == '"' {
+				key := uuid.New().String()
+				hsMap[key] = input[pre : i+1]
+				temp += key
+			} else {
+				return []string{}, fmt.Errorf("Invalid input")
+			}
+		} else {
+			temp += string(cur)
 		}
 	}
-	return args
-}
 
-// Function to check if a string contains only alphanumeric characters
-func isAlphanumeric(s string) bool {
-	for _, char := range s {
-		if (char < 'A' || (char > 'Z' && char < 'a') || char > 'z') && (char < '0' || char > '9') {
-			return false
+	args = strings.Fields(temp)
+
+	for idx, val := range args {
+		if double, ok := hsMap[val]; ok {
+			args[idx] = double
 		}
 	}
-	return true
+	return args, nil
 }

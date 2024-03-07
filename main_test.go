@@ -106,6 +106,15 @@ func Test_processArg(t *testing.T) {
 			want:    []string{`create-file`, `"m wang"`, `filename1`, `--sort-name`, `asc`},
 			wantErr: false,
 		},
+
+		{
+			name: "Happy Path",
+			args: args{
+				input: `list-file "m wang" "foldername1" "filename 1" --sort-name asc`,
+			},
+			want:    []string{`list-file`, `"m wang"`, `"foldername1"`, `"filename 1"`, `--sort-name`, `asc`},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
