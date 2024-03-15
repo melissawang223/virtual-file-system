@@ -61,6 +61,7 @@ func TestRenameFolderController(t *testing.T) {
 			if err := RenameFolderController(tt.args.args); (err != nil) != tt.wantErr {
 				t.Errorf("RenameFolderController() error = %v, wantErr %v", err, tt.wantErr)
 			}
+			// compare file...
 		})
 	}
 }

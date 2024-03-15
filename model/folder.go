@@ -48,11 +48,25 @@ func ReNameFolder(userName, folderName, newfolderName string) {
 
 	//rename folder
 	oldFolder := UsersMap[userName].Folders[folderName]
+	oldFile := oldFolder.File
+
+	// deep copy
+	newFile := map[string]*File{}
+	for key, val := range oldFile {
+		newFile[key] = &File{
+			Name:        val.Name,
+			Description: val.Description,
+			CreatedAt:   val.CreatedAt,
+			FolderName:  newfolderName,
+			UserName:    userName,
+		}
+	}
+
 	newFolder := &Folder{
 		Name:        newfolderName,
 		Description: oldFolder.Description,
 		CreatedAt:   oldFolder.CreatedAt,
-		File:        oldFolder.File,
+		File:        newFile,
 	}
 
 	DeleteFolder(userName, folderName)
